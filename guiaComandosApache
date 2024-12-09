@@ -1,0 +1,90 @@
+https://www.ionos.es/digitalguide/servidores/configuracion/instalar-apache-en-ubuntu/
+
+Creamos a estructura das páxinas:
+
+sudo mkdir /var/www/celta
+sudo chown -R $USER:$USER /var/www/celta
+
+sudo mkdir /var/www/40k
+sudo chown -R $USER:$USER /var/www/40k
+
+sudo mkdir /var/www/onepiece
+sudo chown -R $USER:$USER /var/www/onepiece
+
+
+sudo nano /var/www/celta/index.html
+
+sudo nano /var/www/40k/index.html
+
+sudo nano /var/www/onepiece/index.html
+
+
+
+sudo nano /etc/apache2/sites-available/celta.conf
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName celta
+    ServerAlias www.celta
+    DocumentRoot /var/www/celta
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+
+sudo nano /etc/apache2/sites-available/40k.conf
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName 40k
+    ServerAlias www.40k
+    DocumentRoot /var/www/40k
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+sudo nano /etc/apache2/sites-available/onepiece.conf
+<VirtualHost *:8000>
+    ServerAdmin webmaster@localhost
+    ServerName onepiece
+    ServerAlias www.onepiece
+    DocumentRoot /var/www/onepiece
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+sudo a2dissite 000-default.conf
+
+sudo a2ensite celta.conf
+sudo a2ensite 40k.conf
+sudo a2ensite onepiece.conf
+
+
+sudo apache2ctl configtest
+
+
+sudo systemctl restart apache2
+
+
+
+sudo nano /etc/hosts
+127.0.1.1	celta
+127.0.1.1	40k
+127.0.1.1	onepiece
+
+
+http://celta
+http://40k
+http://onepiece
+
+
+
+sudo nano /etc/apache2/ports.conf
+Listen 8000
+
+sudo systemctl restart apache2
+
+(borramos cache)
+e se é preciso
+sudo systemd-resolve --flush-caches
