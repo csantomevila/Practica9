@@ -1,31 +1,30 @@
-version: "3.9"
+version: "3.3"
 
 services:
   apache:
     image: php:7.4-apache
     container_name: ubuntu-apache
     ports:
-      - "8080:80" # Mantén el puerto 8080 para Apache en el host
+      - "8080:80"
     networks:
       apache_subnet:
-        ipv4_address: 10.1.1.2 # IP en el rango 10.1.1.0/24
+        ipv4_address: 10.1.1.2
     volumes:
       - ./www:/var/www/html
       - ./confApache:/etc/apache2
     command: >
-      bash -c "apachectl start && tail -f /dev/null"
+      bash -c "a2enmod mpm_prefork && apachectl start && tail -f /dev/null"
     restart: unless-stopped
 
   bind9:
     image: ubuntu/bind9
     container_name: asir_bind9
-    platform: linux/amd64
     ports:
       - "5300:53/tcp"
       - "5300:53/udp"
     networks:
       apache_subnet:
-        ipv4_address: 10.1.1.3 # IP  en el rango 10.1.1.0/24
+        ipv4_address: 10.1.1.3
     volumes:
       - ./confDNS/conf:/etc/bind
       - ./confDNS/zonas:/var/lib/bind
@@ -35,7 +34,5 @@ networks:
   apache_subnet:
     driver: bridge
     ipam:
-      driver: default
       config:
         - subnet: 10.1.1.0/24
-
