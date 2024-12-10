@@ -1,9 +1,10 @@
-Práctica 9: Configuración de Apache y Bind9 con Docker Compose
-En esta práctica, vamos a configurar un servidor Apache con soporte para dos sitios web y un servidor DNS utilizando Docker Compose. Los contenedores estarán conectados a través de una red personalizada.
+# Práctica 9: Configuración de Apache y Bind9 con Docker Compose
 
-Estructura de Archivos
-css
-Copiar código
+En esta práctica, vamos a configurar un servidor **Apache** con soporte para dos sitios web y un servidor **DNS** utilizando **Docker Compose**. Los contenedores estarán conectados a través de una red personalizada.
+
+## Estructura de Archivos
+
+```plaintext
 /var/www/
 ├── fabulasmaravillosas
 │   └── index.html
@@ -148,28 +149,22 @@ networks:
       config:
         - subnet: 10.1.1.0/24
 Instrucciones de despliegue
-Asegúrate de tener Docker y Docker Compose instalados en tu máquina.
+Clona este repositorio en tu máquina local.
 
-Clona este repositorio en tu máquina local:
+Asegúrate de tener Docker y Docker Compose instalados.
 
-bash
-Copiar código
-git clone https://github.com/csantomevila/Practica9.git
-Navega al directorio del proyecto:
+Navega al directorio del proyecto.
 
-bash
-Copiar código
-cd Practica9
-Construye y levanta los contenedores con Docker Compose:
+Ejecuta el siguiente comando para levantar los contenedores:
 
 bash
 Copiar código
 docker-compose up -d
-Accede a los sitios web:
+Accede a los sitios web en los siguientes enlaces:
 
 http://fabulasmaravillosas
 http://fabulasoscuras
-Para detener los contenedores:
+Para detener los contenedores, ejecuta:
 
 bash
 Copiar código
