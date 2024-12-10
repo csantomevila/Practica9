@@ -71,14 +71,16 @@ Bind9: Servidor DNS para resolver los dominios de los sitios.
 Además, define una red personalizada llamada apache_subnet.
 
 ```
-## ContenidoConfiguración del servidor Apache
+## Configuración del servidor Apache
   ``` ContenidoVolúmenes utilizados
-./www: Directorio donde se encuentran los archivos HTML de los sitios web.
-./confApache: Configuración personalizada de Apache.
+  El servidor Apache está diseñado para alojar dos sitios web distintos: Fábulas Maravillosas y Fábulas Oscuras. La configuración se distribuye de la siguiente manera:
+
+    Directorio /www: Almacena los archivos HTML correspondientes a los sitios web. Cada sitio tiene su directorio raíz especificado en la configuración de Apache.
+    Directorio /confApache: Contiene configuraciones personalizadas del servidor Apache, como los archivos para sitios virtuales.
 ```
 
 
-## Contenido Archivo de configuración fabulasmaravillosas.conf:
+## Contenido Archivo de configuración /var/www/fabulasmaravillosas.:
 ```
 Sitio web 1: Fabulas Maravillosas
 
@@ -90,7 +92,7 @@ Sitio web 1: Fabulas Maravillosas
 </VirtualHost>
 ```
 
-## Contenido Archivo de configuración fabulasoscuras.conf:
+## Contenido Archivo de configuración /var/www/fabulasoscuras.conf:
 ```
 Sitio web 2: Fabulas Oscuras
 Archivo de configuración fabulasoscuras.conf:
@@ -103,7 +105,7 @@ Archivo de configuración fabulasoscuras.conf:
     DocumentRoot /var/www/fabulasoscuras
 </VirtualHost>
 
-Nota: Los archivos de configuración deben estar ubicados en el directorio confApache/sites-enabled.
+Nota: Los archivos de configuración deben estar ubicados en el directorio confApache/sites-enabled tambien 
 ```
 
 ## Configuración del servidor DNS (Bind9)
