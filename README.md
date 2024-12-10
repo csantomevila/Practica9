@@ -4,7 +4,7 @@ En esta práctica, vamos a configurar un servidor **Apache** con soporte para do
 
 ## Estructura de Archivos
 
-```plaintext
+`
 /var/www/
 ├── fabulasmaravillosas
 │   └── index.html
@@ -14,8 +14,10 @@ En esta práctica, vamos a configurar un servidor **Apache** con soporte para do
     └── index.html
 
 ## Contenido
+
 Configuración del archivo docker-compose.yml
 Configuración del servidor Apache
+
 Sitio web 1: Fabulas Maravillosas
 Sitio web 2: Fabulas Oscuras
 Configuración del servidor DNS (Bind9)
@@ -70,43 +72,50 @@ networks:
     ipam:
       config:
         - subnet: 10.1.1.0/24
-Configuración del servidor Apache
-Volúmenes utilizados
+
+        
+## ContenidoConfiguración del servidor Apache
+  ## ContenidoVolúmenes utilizados
 ./www: Directorio donde se encuentran los archivos HTML de los sitios web.
 ./confApache: Configuración personalizada de Apache.
-Sitio web 1: Fabulas Maravillosas
-Archivo de configuración fabulasmaravillosas.conf:
 
-apache
-Copiar código
+
+
+## ContenidoArchivo de configuración fabulasmaravillosas.conf:
+
+Sitio web 1: Fabulas Maravillosas
+
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
     ServerName fabulasmaravillosas.int
     ServerAlias www.fabulasmaravillosas.int
     DocumentRoot /var/www/fabulasmaravillosas
 </VirtualHost>
+
+
+
 Sitio web 2: Fabulas Oscuras
 Archivo de configuración fabulasoscuras.conf:
 
-apache
-Copiar código
+
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
     ServerName fabulasoscuras.int
     ServerAlias www.fabulasoscuras.int
     DocumentRoot /var/www/fabulasoscuras
 </VirtualHost>
+
 Nota: Los archivos de configuración deben estar ubicados en el directorio confApache/sites-enabled.
 
-Configuración del servidor DNS (Bind9)
+## Configuración del servidor DNS (Bind9)
 Volúmenes utilizados
 ./confDNS/conf: Configuración general de Bind9.
 ./confDNS/zonas: Archivos de las zonas DNS.
 Zona Fabulas Maravillosas
 Archivo de zona: db.fabulasmaravillosas.int
 
-dns
-Copiar código
+## dns
+
 $TTL 38400
 @   IN  SOA  ns.fabulasmaravillosas.int. some.email.address. (
                 17161018 ; serial
