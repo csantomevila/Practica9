@@ -110,15 +110,18 @@ Nota: Los archivos de configuración deben estar ubicados en el directorio confA
 
 ## Configuración del servidor DNS (Bind9)
 ```
-Volúmenes utilizados
+El servidor DNS Bind9 resuelve nombres de dominio para los sitios web configurados en Apache. Utiliza los siguientes elementos:
 
-./confDNS/conf: Configuración general de Bind9.
-./confDNS/zonas: Archivos de las zonas DNS.
-Archivo de zona: db.fabulasmaravillosas.int
+    Volúmenes:
+        confDNS/conf: Contiene configuraciones generales de Bind9.
+        confDNS/zonas: Almacena los archivos de zona que definen las relaciones entre nombres de dominio y direcciones IP.
 ```
 
 ## Zonas de Resolucion 
 ```
+Zona Fabulas Maravillosas
+Archivo db.fabulasmaravillosas.int
+
 $TTL 38400
 @   IN  SOA  ns.fabulasmaravillosas.int. some.email.address. (
                 17161018 ; serial
@@ -130,11 +133,13 @@ $TTL 38400
     IN  NS   ns
     IN  A    10.1.1.3
 www IN  A    10.1.1.2
-Zona Fabulas Oscuras
-Archivo de zona: db.fabulasoscuras.int
+
 ```
 
 ```
+Zona Fabulas Oscuras
+Archivo de zona: db.fabulasoscuras.int
+
 $TTL 38400
 @   IN  SOA  ns.fabulasoscuras.int. some.email.address. (
                 17161017 ; serial
@@ -149,14 +154,14 @@ www IN  A    10.1.1.2
 ```
 
 ## Red personalizada
-```La red apache_subnet conecta los servicios de forma aislada con direcciones IP asignadas manualmente:
+```
+Ambos servicios están conectados mediante una red personalizada definida como apache_subnet. Esto permite el uso de direcciones IP estáticas en un rango específico (10.1.1.0/24) para facilitar la comunicación interna:
 
-Apache: 10.1.1.2
-Bind9: 10.1.1.3
-Definición en docker-compose.yml:
+    Servidor Apache: 10.1.1.2
+    Servidor Bind9: 10.1.1.3
 
-yaml
-Copiar código
+
+
 networks:
   apache_subnet:
     driver: bridge
@@ -183,6 +188,6 @@ docker-compose up -d
 
 http://fabulasmaravillosas
 http://fabulasoscuras
-Para detener los contenedores, ejecuta:
+
 
 "
