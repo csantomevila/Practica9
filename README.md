@@ -1,20 +1,16 @@
-# Practica9
-
 Práctica 9: Configuración de Apache y Bind9 con Docker Compose
-En esta práctica configuraremos un servidor Apache con soporte para dos sitios web y un servidor DNS utilizando Docker Compose. Los contenedores estarán conectados mediante una red personalizada.
-postgres@debian:/etc/docker/Practica9$ tree /var/www/
+En esta práctica, vamos a configurar un servidor Apache con soporte para dos sitios web y un servidor DNS utilizando Docker Compose. Los contenedores estarán conectados a través de una red personalizada.
+
+Estructura de Archivos
+css
+Copiar código
 /var/www/
 ├── fabulasmaravillosas
-│   └── index.html
+│   └── index.html
 ├── fabulasoscuras
-│   └── index.html
+│   └── index.html
 └── html
     └── index.html
-
-3 directories, 3 files
-postgres@debian:/etc/docker/Practica9$ 
-
-
 Contenido
 Configuración del archivo docker-compose.yml
 Configuración del servidor Apache
@@ -24,10 +20,13 @@ Configuración del servidor DNS (Bind9)
 Zona Fabulas Maravillosas
 Zona Fabulas Oscuras
 Red personalizada
-Configuraciones adicionales
 Instrucciones de despliegue
 Configuración del archivo docker-compose.yml
-El archivo docker-compose.yml define dos servicios: apache y bind9, además de una red personalizada llamada apache_subnet.
+El archivo docker-compose.yml define dos servicios:
+
+Apache: Servidor web con soporte para los dos sitios.
+Bind9: Servidor DNS para resolver los dominios de los sitios.
+Además, define una red personalizada llamada apache_subnet.
 
 yaml
 Copiar código
@@ -45,7 +44,7 @@ services:
     volumes:
       - ./www:/var/www/html
       - ./confApache:/etc/apache2
-    command: >
+    command: > 
       bash -c "a2enmod mpm_prefork && apachectl start && tail -f /dev/null"
     restart: unless-stopped
 
@@ -74,7 +73,7 @@ Volúmenes utilizados
 ./www: Directorio donde se encuentran los archivos HTML de los sitios web.
 ./confApache: Configuración personalizada de Apache.
 Sitio web 1: Fabulas Maravillosas
-Configuración básica (fabulasmaravillosas.conf):
+Archivo de configuración fabulasmaravillosas.conf:
 
 apache
 Copiar código
@@ -85,7 +84,7 @@ Copiar código
     DocumentRoot /var/www/fabulasmaravillosas
 </VirtualHost>
 Sitio web 2: Fabulas Oscuras
-Configuración básica (fabulasoscuras.conf):
+Archivo de configuración fabulasoscuras.conf:
 
 apache
 Copiar código
@@ -95,46 +94,46 @@ Copiar código
     ServerAlias www.fabulasoscuras.int
     DocumentRoot /var/www/fabulasoscuras
 </VirtualHost>
-Nota: Los archivos de configuración deben estar en el directorio confApache/sites-enabled.
+Nota: Los archivos de configuración deben estar ubicados en el directorio confApache/sites-enabled.
 
 Configuración del servidor DNS (Bind9)
 Volúmenes utilizados
 ./confDNS/conf: Configuración general de Bind9.
 ./confDNS/zonas: Archivos de las zonas DNS.
 Zona Fabulas Maravillosas
-Archivo: db.fabulasmaravillosas.int
+Archivo de zona: db.fabulasmaravillosas.int
 
 dns
 Copiar código
 $TTL 38400
-@ IN SOA ns.fabulasmaravillosas.int. some.email.address. (
-   17161018   ; serial
-   10800      ; refresh
-   3600       ; retry
-   604800     ; expire
-   38400      ; minimum
+@   IN  SOA  ns.fabulasmaravillosas.int. some.email.address. (
+                17161018 ; serial
+                10800 ; refresh
+                3600 ; retry
+                604800 ; expire
+                38400 ; minimum
 )
-@ IN NS ns
-ns IN A 10.1.1.3
-www IN A 10.1.1.2
+    IN  NS   ns
+    IN  A    10.1.1.3
+www IN  A    10.1.1.2
 Zona Fabulas Oscuras
-Archivo: db.fabulasoscuras.int
+Archivo de zona: db.fabulasoscuras.int
 
 dns
 Copiar código
 $TTL 38400
-@ IN SOA ns.fabulasoscuras.int. some.email.address. (
-   17161017   ; serial
-   10800      ; refresh
-   3600       ; retry
-   604800     ; expire
-   38400      ; minimum
+@   IN  SOA  ns.fabulasoscuras.int. some.email.address. (
+                17161017 ; serial
+                10800 ; refresh
+                3600 ; retry
+                604800 ; expire
+                38400 ; minimum
 )
-@ IN NS ns
-ns IN A 10.1.1.3
-www IN A 10.1.1.2
+    IN  NS   ns
+    IN  A    10.1.1.3
+www IN  A    10.1.1.2
 Red personalizada
-La red apache_subnet conecta los servicios de forma aislada y con direcciones IP asignadas manualmente:
+La red apache_subnet conecta los servicios de forma aislada con direcciones IP asignadas manualmente:
 
 Apache: 10.1.1.2
 Bind9: 10.1.1.3
@@ -148,35 +147,30 @@ networks:
     ipam:
       config:
         - subnet: 10.1.1.0/24
+Instrucciones de despliegue
+Asegúrate de tener Docker y Docker Compose instalados en tu máquina.
 
+Clona este repositorio en tu máquina local:
 
+bash
+Copiar código
+git clone https://github.com/csantomevila/Practica9.git
+Navega al directorio del proyecto:
 
-postgres@debian:/etc/docker/Practica9$ tree /var/www/
-/var/www/
-├── fabulasmaravillosas
-│   └── index.html
-├── fabulasoscuras
-│   └── index.html
-└── html
-    └── index.html
+bash
+Copiar código
+cd Practica9
+Construye y levanta los contenedores con Docker Compose:
 
-3 directories, 3 files
-postgres@debian:/etc/docker/Practica9$ 
+bash
+Copiar código
+docker-compose up -d
+Accede a los sitios web:
 
-  GNU nano 5.4                              /etc/hosts                                        
-127.0.0.1       localhost
-127.0.1.1       debian
-127.0.1.1       fabulasmaravillosas
-127.0.1.1       fabulasoscuras
-
-
-http://fabulasoscuras
 http://fabulasmaravillosas
+http://fabulasoscuras
+Para detener los contenedores:
 
-
-# The following lines are desirable for IPv6 capable hosts
-::1     localhost ip6-localhost ip6-loopback
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-
-
+bash
+Copiar código
+docker-compose down
