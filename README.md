@@ -12,7 +12,8 @@ En esta práctica, vamos a configurar un servidor **Apache** con soporte para do
 │   └── index.html
 └── html
     └── index.html
-Contenido
+
+## Contenido
 Configuración del archivo docker-compose.yml
 Configuración del servidor Apache
 Sitio web 1: Fabulas Maravillosas
