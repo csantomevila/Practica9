@@ -22,6 +22,17 @@ Configuración del archivo docker-compose.yml
 
 
 ## Archivo Docker-Compose
+
+```
+ Esta configuración de docker-compose.yml define un entorno con dos servicios interconectados mediante Docker: un servidor web Apache y un servidor DNS Bind9
+  El objetivo principal es ofrecer un sistema funcional para alojar sitios web y resolver nombres de dominio en un entorno aislado y reproducible
+
+El archivo docker-compose.yml define dos servicios:
+
+Apache: Servidor web con soporte para los dos sitios.
+Bind9: Servidor DNS para resolver los dominios de los sitios.
+Además, define una red personalizada llamada apache_subnet.
+```
 ```
 services:
   apache:
@@ -60,17 +71,8 @@ networks:
       config:
         - subnet: 10.1.1.0/24
 ```
-```
- Esta configuración de docker-compose.yml define un entorno con dos servicios interconectados mediante Docker: un servidor web Apache y un servidor DNS Bind9
-  El objetivo principal es ofrecer un sistema funcional para alojar sitios web y resolver nombres de dominio en un entorno aislado y reproducible
 
-El archivo docker-compose.yml define dos servicios:
 
-Apache: Servidor web con soporte para los dos sitios.
-Bind9: Servidor DNS para resolver los dominios de los sitios.
-Además, define una red personalizada llamada apache_subnet.
-
-```
 ## Configuración del servidor Apache
   ``` ContenidoVolúmenes utilizados
   El servidor Apache está diseñado para alojar dos sitios web distintos: Fábulas Maravillosas y Fábulas Oscuras. La configuración se distribuye de la siguiente manera:
@@ -180,8 +182,6 @@ networks:
 
 4-Ejecuta el siguiente comando para levantar los contenedores:
 
-bash
-Copiar código
 docker-compose up -d
 
 5-Accede a los sitios web en los siguientes enlaces:
